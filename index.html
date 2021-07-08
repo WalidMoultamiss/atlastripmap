@@ -28,7 +28,7 @@
     var url = 'https://wanderdrone.appspot.com/';
 
     mapboxgl.accessToken = 'pk.eyJ1IjoieXVzZnV1IiwiYSI6ImNrcXV0cDQ4MDA1NmcyeHA2dW93bzI1aW8ifQ.e09oaWi1aFqdsNdJbJAfjA';
-    navigator.geolocation.geolocation(async ({ coords }) => {
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       const { latitude, longitude } = coords;
       mapboxgl.accessToken = 'pk.eyJ1IjoieXVzZnV1IiwiYSI6ImNrcXV0cDQ4MDA1NmcyeHA2dW93bzI1aW8ifQ.e09oaWi1aFqdsNdJbJAfjA';
       var map = new mapboxgl.Map({
