@@ -103,20 +103,13 @@
               type: 'authenticate',
               payload: { token: 'eyJ0eXAiOiFFJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjU3NTI1MDMsImV4cCI6MTYyODM4MjI0OSwiZGQiOnsiZmlyc3RfbmFtZSI6ImJFFhbGluYSIsISmxhc3RfbmFtZSI6Imhlcm1hbm8iLCJlbWFpbCI6Ik9tZXJfR2lic2FvbkBiYWxpbmEuY29tIiwicGhvbmUiOjU1OTI1MzYyMjd9fQ.73rVedh8vlElTnnAFvMBrBkcEcDJIvXKZLV70jnlEek' }
             };
-            const s = new WebSocket('ws://atlastripws.herokuapp.com', [msg.payload.token]);
+            const s = new WebSocket('wss://atlastripws.herokuapp.com', [msg.payload.token]);
 
             // Listen for messages
             s.addEventListener('message', function (event) {
-              console.log('Message from server ', event.data);
-            });
-
-            setTimeout(() => {
               console.log(JSON.stringify(geo));
               s.send(JSON.stringify(geo));
-            }, 3000);
-
-
-
+            });
 
           }, () => { }, opt);
 
