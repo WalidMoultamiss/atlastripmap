@@ -25,48 +25,80 @@
 <body>
   <div id="map"></div>
   <script>
-    var url = 'https://wanderdrone.appspot.com/';
-
-    mapboxgl.accessToken = 'pk.eyJ1IjoieXVzZnV1IiwiYSI6ImNrcXV0cDQ4MDA1NmcyeHA2dW93bzI1aW8ifQ.e09oaWi1aFqdsNdJbJAfjA';
-    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
-      const { latitude, longitude } = coords;
-      mapboxgl.accessToken = 'pk.eyJ1IjoieXVzZnV1IiwiYSI6ImNrcXV0cDQ4MDA1NmcyeHA2dW93bzI1aW8ifQ.e09oaWi1aFqdsNdJbJAfjA';
-      var map = new mapboxgl.Map({
-        container: 'map',
-        zoom: 20,
-        center: [longitude, latitude],
-        pitch: 85,
-        bearing: 80,
-        style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y'
+    if (!navigator.geolocation) {
+      status.textContent = 'Geolocation is not supported by your browser';
+    } else {
+      const opt = {
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: 0
+      }
+      let defaultJson;
+      var marker = new mapboxgl.Marker({
+        color: '#F84C4C'
       });
 
-      map.on('load', function () {
-        map.addSource('mapbox-dem', {
-          'type': 'raster-dem',
-          'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-          'tileSize': 512,
-          'maxzoom': 14
-        });
-        // add the DEM source as a terrain layer with exaggerated height
-        map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
-        map.addSource('hiker', { type: 'geojson', data: url });
+      navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+        mapboxgl.accessToken = 'pk.eyJ1IjoieXVzZnV1IiwiYSI6ImNrcXV0cDQ4MDA1NmcyeHA2dW93bzI1aW8ifQ.e09oaWi1aFqdsNdJbJAfjA';
 
-        // add a sky layer that will show when the map is highly pitched
-        map.addLayer({
-          'id': 'sky',
-          'type': 'sky',
-          'paint': {
-            'sky-type': 'atmosphere',
-            'sky-atmosphere-sun': [0.0, 0.0],
-            'sky-atmosphere-sun-intensity': 15
-          }
+        const { latitude, longitude } = coords;
+
+        map = new mapboxgl.Map({
+          container: 'map',
+          zoom: 14,
+          center: [longitude, latitude],
+          pitch: 85,
+          bearing: 80,
+          style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y'
         });
-      });
-    }, () => { }, {
-      enableHighAccuracy: false,
-      timeout: 5000,
-      maximumAge: 0
-    });
+
+        map.on('load', function () {
+
+          map.addSource('mapbox-dem', {
+            'type': 'raster-dem',
+            'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+            'tileSize': 512,
+            'maxzoom': 14
+          });
+          map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+
+          map.addLayer({
+            'id': 'sky',
+            'type': 'sky',
+            'paint': {
+              'sky-type': 'atmosphere',
+              'sky-atmosphere-sun': [0.0, 0.0],
+              'sky-atmosphere-sun-intensity': 15
+            }
+          });
+
+          //////////////////////////////
+          navigator.geolocation.watchPosition(({ coords }) => {
+            const { latitude, longitude } = coords;
+
+            let json = {
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  longitude,
+                  latitude
+                ]
+              },
+              "type": "Feature",
+              "properties": {
+
+              }
+            }
+
+            map.flyTo({ center: json.geometry.coordinates, speed: 0.3 });
+            requestAnimationFrame(() => marker.setLngLat(json.geometry.coordinates).addTo(map));
+
+          }, () => { }, opt);
+
+        });
+      }, () => { }, opt);
+    }
+
   </script>
 
 </body>
