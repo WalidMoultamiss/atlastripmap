@@ -1,5 +1,8 @@
 
+alert("azazaz");
 
+
+return;
 if (!navigator.geolocation) {
   status.textContent = 'Geolocation is not supported by your device';
 } else {
