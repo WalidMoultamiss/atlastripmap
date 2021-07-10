@@ -1,7 +1,7 @@
 
 alert("azazaz");
 
-document.write('aezzezezze');
+document.write(window.token);
 
 
 // return;s
