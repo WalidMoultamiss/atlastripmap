@@ -1,5 +1,4 @@
-const urlSearchParams = new URLSearchParams(window.location.search);
-const params = Object.fromEntries(urlSearchParams.entries());
+
 
 if (!navigator.geolocation) {
   status.textContent = 'Geolocation is not supported by your device';
@@ -8,7 +7,7 @@ if (!navigator.geolocation) {
 
   const msg = {
     type: 'authenticate',
-    payload: { token: params.token }
+    payload: { token: window.token || '' }
   };
 
   const s = new WebSocket('wss://atlastripws.herokuapp.com', [msg.payload.token]);
