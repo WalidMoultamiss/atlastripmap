@@ -2,7 +2,7 @@
 const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
 
-alert(params.token)
+alert(JSON.stringify(params));
 if (!navigator.geolocation) {
   status.textContent = 'Geolocation is not supported by your device';
 } else {
