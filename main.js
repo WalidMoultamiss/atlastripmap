@@ -1,18 +1,11 @@
 const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
-let s = "herman";
-console.log(s);
+let s = null;
 if (!navigator.geolocation) {
   status.textContent = 'Geolocation is not supported by your device';
 } else {
   let timeID;
-
-  const msg = {
-    type: 'authenticate',
-    payload: { token: params.token }
-  };
-
-  s = new WebSocket('wss://atlastripws.herokuapp.com', [msg.payload.token]);
+  s = new WebSocket('wss://atlastripws.herokuapp.com?token=' + params.token);
   s.addEventListener('message', function ({ data }) {
     const dd = JSON.parse(data);
     if (!dd.success) {
