@@ -1,6 +1,8 @@
 
 alert("azazaz");
 
+document.write('aezzezezze');
+
 
 return;
 if (!navigator.geolocation) {
