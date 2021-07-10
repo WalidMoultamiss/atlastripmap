@@ -1,7 +1,10 @@
 
 alert("azazaz");
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
+document.write(params.token);
+alert("azazaz");
 
-document.write(window.token);
 
 
 // return;s
