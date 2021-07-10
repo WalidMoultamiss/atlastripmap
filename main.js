@@ -1,6 +1,7 @@
-const urlSearchParams = new URLSearchParams(window.location.search);
-const params = Object.fromEntries(urlSearchParams.entries());
+// const urlSearchParams = new URLSearchParams(window.location.search);
+// const params = Object.fromEntries(urlSearchParams.entries());
 
+console.log(params.token);
 if (!navigator.geolocation) {
   status.textContent = 'Geolocation is not supported by your device';
 } else {
@@ -8,7 +9,7 @@ if (!navigator.geolocation) {
 
   const msg = {
     type: 'authenticate',
-    payload: { token: params.token }
+    payload: { token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjU5MTkzMDIsImV4cCI6MTYyODU0OTA0OCwiZGQiOnsiZmlyc3RfbmFtZSI6IkthcmltIiwibGFzdF9uYW1lIjoiS2FyaW0iLCJlbWFpbCI6IkthcmltQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiaWQiOiIyOCJ9fQ.6O7hqCQvqApp0u7OzV3zeDZ_86Qr86xJNlHvT_cnC48' }
   };
 
   const s = new WebSocket('wss://atlastripws.herokuapp.com', [msg.payload.token]);
